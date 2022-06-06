@@ -73,7 +73,7 @@ def betas(features, target):
     covars[i] = covariance(features.iloc[:,i],target)
   Betas=np.dot(Cxinv,(covars.T))
 
-##BETA 0
+  ##BETA 0
   promedio = target.mean()
   Beta0 = promedio - np.dot(features.mean(axis=0),Betas)
   return Betas, Beta0
