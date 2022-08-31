@@ -25,27 +25,27 @@ from scipy import stats
 
 #data = pd.read_csv('https://raw.githubusercontent.com/asepulvede/ModelacionSimulacion4/main/healthcare-dataset-stroke-data.csv')
 data = pd.read_csv('https://raw.githubusercontent.com/asepulvede/ModelacionSimulacion4/main/healthcare-dataset-stroke-data.csv') #Dataset con outliers
-new_data= data.fillna(method='ffill')
-new_data2= pd.get_dummies(new_data, columns= ["gender"])
-new_data3= pd.get_dummies(new_data2, columns= ["ever_married"])
-new_data4= pd.get_dummies(new_data3, columns= ["work_type"])
-new_data5= pd.get_dummies(new_data4, columns= ["Residence_type"])
-new_data6= pd.get_dummies(new_data5, columns= ["smoking_status"])
-new_data6 = new_data6.drop(columns = ['gender_Other' ])
-new_data6=new_data6.drop(columns='id')
+data= data.fillna(method='ffill')
+data= pd.get_dummies(data, columns= ["gender"])
+data= pd.get_dummies(data, columns= ["ever_married"])
+data= pd.get_dummies(data, columns= ["work_type"])
+data= pd.get_dummies(data, columns= ["Residence_type"])
+data= pd.get_dummies(data, columns= ["smoking_status"])
+data = data.drop(columns = ['gender_Other' ])
+data=data.drop(columns='id')
 
-new_data6 = new_data6.loc[:, (new_data6 != 0).any(axis=0)]
+data = data.loc[:, (data != 0).any(axis=0)]
 
-m = len(new_data6.columns)
+m = len(data.columns)
 
 for i in range(m):
-  if stdev(new_data6.iloc[:,i])==0:
-    new_data6 = new_data6.drop(columns = [i])
+  if stdev(data.iloc[:,i])==0:
+    data =data.drop(columns = [i])
 
 ##FEATURES STROKE
 
-features=new_data6.drop(columns='stroke')
-target = new_data6.iloc[:,2]
+features=data.drop(columns='stroke')
+target = data.iloc[:,2]
 
 ##MATRIZ DE COVARIANZA ROBUSTA MÉTODOS
 def covariance(x,y):
@@ -120,7 +120,6 @@ plt.title('Acurracy Scores por iteración Spearman')
 plt.xlabel('Iteraciones')
 plt.ylabel('Puntaje')
 plt.show()
-
 
 
 plt.plot(auc, color= 'g')
